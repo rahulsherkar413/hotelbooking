@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grand Paradise Hotel - Book Your Stay</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--secondary);
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero-content p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin: 50px 0 30px;
+            font-size: 36px;
+            color: var(--dark);
+        }
+        
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .service-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .service-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .service-card:hover .service-img img {
+            transform: scale(1.1);
+        }
+        
+        .service-content {
+            padding: 20px;
+        }
+        
+        .service-content h3 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .service-content p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .price {
+            font-weight: bold;
+            color: var(--secondary);
+            font-size: 20px;
+        }
+        
+        .booking-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 1em;
+        }
+        
+        .booking-summary {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .summary-total {
+            font-weight: bold;
+            font-size: 20px;
+            margin-top: 20px;
+            color: var(--secondary);
+        }
+        
+        .payment-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .payment-method {
+            flex: 1;
+            min-width: 150px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .payment-method:hover {
+            border-color: var(--secondary);
+            background-color: #fff9f9;
+        }
+        
+        .payment-method img {
+            height: 40px;
+            margin-bottom: 10px;
+        }
+        
+        .payment-details {
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .payment-details.active {
+            display: block;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #bbb;
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            border-top: 1px solid #444;
+            padding-top: 20px;
+            color: #bbb;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 20px;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+            
+            .hero-content h1 {
+                font-size: 36px;
+            }
+            
+            .hero-content p {
+                font-size: 18px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">Grand  <span> Heritage </span></div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#rooms">Rooms</a></li>
+                    <li><a href="#dining">Dining</a></li>
+                    <li><a href="#booking">Booking</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <div>
+                <h1>Global Icon Of Indian Hospitality </h1>
+                <p>Experience world-class hospitality at Grand Heritage Hotel</p>
+                <a href="#booking" class="btn">Book Now</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="rooms">
+        <h2 class="section-title">Our Rooms</h2>
+        <div class="services">
+            <div class="service-card">
+                <div class="service-img">
+                    <img src="https://lancasterbangkok.com/wp-content/uploads/2019/02/09_1025_Deluxe_Room_Out_In_Night_Final_SM.jpg" alt="Deluxe Room">
+                </div>
+                <div class="service-content">
+                    <h3>Deluxe Room</h3>
+                    <p>Spacious room with king-size bed, work desk and modern amenities</p>
+                    <div class="price">₹5,999/night</div>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-img">
+                    <img src="http://www.grandlordhotel.com/medias/room/big/80/deluxe03.jpg" alt="Executive Suite">
+                </div>
+                <div class="service-content">
+                    <h3>Executive Suite</h3>
+                    <p>Luxurious suite with separate living area and premium services</p>
+                    <div class="price">₹9,999/night</div>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-img">
+                    <img src="https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/67/2023/07/13044925/VHB-Photo-Library-Website-Deluxe-Suite-44.jpg" alt="Presidential Suite">
+                </div>
+                <div class="service-content">
+                    <h3>Presidential Suite</h3>
+                    <p>Ultimate luxury with panoramic views and personalized butler service</p>
+                    <div class="price">₹19,999/night</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="dining">
+        <h2 class="section-title">Dining Options</h2>
+        <div class="services">
+            <div class="service-card">
+                <div class="service-img">
+                    <img src="https://c8.alamy.com/comp/GX0BBJ/breakfast-buffet-full-continental-and-english-coffee-orange-juice-GX0BBJ.jpg" alt="Continental Breakfast">
+                </div>
+                <div class="service-content">
+                    <h3>Continental Breakfast</h3>
+                    <p>Fresh fruits, pastries, cereals and beverages</p>
+                    <div class="price">₹599/plate</div>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-img">
+                    <img src="https://img.freepik.com/premium-photo/indian-hindu-veg-thali-also-known-as-food-platter-is-complete-lunch-dinner-meal-closeup-selective-focus_466689-9137.jpg?w=2000" alt="Indian Thali">
+                </div>
+                <div class="service-content">
+                    <h3>Indian Thali</h3>
+                    <p>Traditional Indian meal with variety of curries and breads</p>
+                    <div class="price">₹799/thali</div>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-img">
+                    <img src="https://mir-s3-cdn-cf.behance.net/project_modules/2800_opt_1/c150d455653899.598d2c628238b.jpg" alt="Italian Pasta">
+                </div>
+                <div class="service-content">
+                    <h3>Italian Pasta</h3>
+                    <p>Authentic Italian pasta with choice of sauces</p>
+                    <div class="price">₹649/plate</div>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-img">
+                    <img src="https://png.pngtree.com/background/20230519/original/pngtree-platter-full-of-chinese-food-picture-image_2663212.jpg" alt="Chinese Platter">
+                </div>
+                <div class="service-content">
+                    <h3>Chinese Platter</h3>
+                    <p>Popular Chinese dishes with fried rice or noodles</p>
+                    <div class="price">₹899/platter</div>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-img">
+                    <img src="https://img.freepik.com/premium-photo/indian-vegetarian-food-thali-platter-includes-paneer-butter-masala-dal-makhani-tarka-chole-papad-kofta-curry-gulab-jamun-aloo-gobi-sabji-chapati-rice-with-bengali-sweet-served_466689-4775.jpg?w=2000" alt="Vegetarian Special">
+                </div>
+                <div class="service-content">
+                    <h3>Vegetarian Special</h3>
+                    <p>Gourmet vegetarian dishes from around the world</p>
+                    <div class="price">₹749/plate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="drinks">
+        <h2 class="section-title">Beverages</h2>
+        <div class="services">
+            <div class="service-card">
+                <div class="service-img">
+                    <img src="https://live.staticflickr.com/8179/29256887321_51b21baab4_b.jpg" alt="Fresh Juices">
+                </div>
+                <div class="service-content">
+                    <h3>Fresh Juices</h3>
+                    <p>Seasonal fruits freshly squeezed to order</p>
+                    <div class="price">₹199/glass</div>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-img">
+                    <img src="https://www.allrecipes.com/thmb/kTq3rdclrgW3U30RlND_QCMifnQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/What-Is-a-Mocktail-4x3-05a75e02326d4cdb8c1f310c7ea8c983.jpg" alt="Mocktails">
+                </div>
+                <div class="service-content">
+                    <h3>Mocktails</h3>
+                    <p>Refreshing non-alcoholic mixed drinks</p>
+                    <div class="price">₹249/glass</div>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-img">
+                    <img src="http://gourmetcoffeea.weebly.com/uploads/1/1/1/9/111962919/specialty-coffee_orig.jpg" alt="Specialty Coffee">
+                </div>
+                <div class="service-content">
+                    <h3>Specialty Coffee</h3>
+                    <p>Artisanal coffee preparations</p>
+                    <div class="price">₹179/cup</div>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-img">
+                    <img src="https://tse4.mm.bing.net/th?id=OIP.D6J7NB6YgMzdQcyCy1S9UQHaFV&pid=Api&P=0&h=180" alt="Premium Tea">
+                </div>
+                <div class="service-content">
+                    <h3>Premium Tea</h3>
+                    <p>Selection of finest teas from around the world</p>
+                    <div class="price">₹149/cup</div>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-img">
+                    <img src="https://www.thedailymeal.com/img/gallery/the-complete-list-of-sparkling-water-brands-ranked/l-intro-1661442626.jpg" alt="Mineral Water">
+                </div>
+                <div class="service-content">
+                    <h3>Mineral Water</h3>
+                    <p>Bottled mineral water (1L)</p>
+                    <div class="price">₹50/bottle</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="booking">
+        <h2 class="section-title">Book Your Stay</h2>
+        <div class="booking-form">
+            <h3>Personal Information</h3>
+            <form id="registrationForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea id="address" class="form-control" rows="3" required></textarea>
+                </div>
+                
+                <h3 style="margin-top: 30px;">Booking Details</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="checkIn">Check-in Date</label>
+                        <input type="date" id="checkIn" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkOut">Check-out Date</label>
+                        <input type="date" id="checkOut" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="roomType">Room Type</label>
+                    <select id="roomType" class="form-control" required>
+                        <option value="">Select Room Type</option>
+                        <option value="deluxe">Deluxe Room - ₹5,999/night</option>
+                        <option value="executive">Executive Suite - ₹9,999/night</option>
+                        <option value="presidential">Presidential Suite - ₹19,999/night</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="guests">Number of Guests</label>
+                    <select id="guests" class="form-control" required>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+                
+                <h3 style="margin-top: 30px;">Food Preferences</h3>
+                <div class="form-group">
+                    <label>Select Food Items (₹599-899 each)</label>
+                    <select id="foodItems" class="form-control" multiple>
+                        <option value="continental">Continental Breakfast - ₹599</option>
+                        <option value="thali">Indian Thali - ₹799</option>
+                        <option value="pasta">Italian Pasta - ₹649</option>
+                        <option value="chinese">Chinese Platter - ₹899</option>
+                        <option value="veg">Vegetarian Special - ₹749</option>
+                    </select>
+                    <small>Hold Ctrl/Cmd to select multiple items</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Select Beverages (₹50-249 each)</label>
+                    <select id="drinkItems" class="form-control" multiple>
+                        <option value="juice">Fresh Juice - ₹199</option>
+                        <option value="mocktail">Mocktail - ₹249</option>
+                        <option value="coffee">Specialty Coffee - ₹179</option>
+                        <option value="tea">Premium Tea - ₹149</option>
+                        <option value="water">Mineral Water - ₹50</option>
+                    </select>
+                    <small>Hold Ctrl/Cmd to select multiple items</small>
+                </div>
+                
+                <button type="button" class="btn" onclick="calculateTotal()">Calculate Total</button>
+            </form>
+        </div>
+        
+        <div class="booking-summary" id="bookingSummary" style="display: none;">
+            <h3>Booking Summary</h3>
+            <div id="summaryContent"></div>
+            <div class="summary-total" id="totalAmount">Total: ₹0</div>
+            
+            <h3 style="margin-top: 30px;">Payment Method</h3>
+            <div class="payment-methods">
+                <div class="payment-method" onclick="showPaymentDetails('upi')">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI">
+                    <p>UPI Payment</p>
+                </div>
+                <div class="payment-method" onclick="showPaymentDetails('debit')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/196/196578.png" alt="Debit Card">
+                    <p>Debit Card</p>
+                </div>
+                <div class="payment-method" onclick="showPaymentDetails('credit')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/196/196578.png" alt="Credit Card">
+                    <p>Credit Card</p>
+                </div>
+            </div>
+            
+            <div id="upiDetails" class="payment-details">
+                <div class="form-group" style="margin-top: 20px;">
+                    <label for="upiId">UPI ID</label>
+                    <input type="text" id="upiId" class="form-control" placeholder="yourname@upi">
+                </div>
+                <button type="button" class="btn" onclick="processPayment()">Pay Now</button>
+            </div>
+            
+            <div id="debitDetails" class="payment-details">
+                <div class="form-group" style="margin-top: 20px;">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" id="cardNumber" class="form-control" placeholder="1234 5678 9012 3456">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiryDate">Expiry Date</label>
+                        <input type="text" id="expiryDate" class="form-control" placeholder="MM/YY">
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" class="form-control" placeholder="123">
+                    </div>
+                </div>
+                <button type="button" class="btn" onclick="processPayment()">Pay Now</button>
+            </div>
+            
+            <div id="creditDetails" class="payment-details">
+                <div class="form-group" style="margin-top: 20px;">
+                    <label for="creditCardNumber">Card Number</label>
+                    <input type="text" id="creditCardNumber" class="form-control" placeholder="1234 5678 9012 3456">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="creditExpiryDate">Expiry Date</label>
+                        <input type="text" id="creditExpiryDate" class="form-control" placeholder="MM/YY">
+                    </div>
+                    <div class="form-group">
+                        <label for="creditCvv">CVV</label>
+                        <input type="text" id="creditCvv" class="form-control" placeholder="123">
+                    </div>
+                </div>
+                <button type="button" class="btn" onclick="processPayment()">Pay Now</button>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <p>Grand Heritage Hotel offers luxury accommodations with world-class amenities in the heart of the city.</p>
+                    <p>Experience hospitality redefined.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p>123 Luxury Avenue,Chh.Sambhajinagr</p>
+                    <p>Maharashtra, India 431005</p>
+                    <p>Phone: +91 9049240621</p>
+                    <p>Email: info@grandheritage.com</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="#home">Home</a>
+                    <a href="#rooms">Rooms</a>
+                    <a href="#dining">Dining</a>
+                    <a href="#booking">Booking</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Grand Heritage Hotel. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Calculate total amount
+        function calculateTotal() {
+            // Get room price
+            const roomType = document.getElementById('roomType');
+            const roomPrice = getRoomPrice(roomType.value);
+            
+            // Get number of nights
+            const checkIn = new Date(document.getElementById('checkIn').value);
+            const checkOut = new Date(document.getElementById('checkOut').value);
+            const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+            
+            // Calculate room total
+            const roomTotal = roomPrice * nights;
+            
+            // Get selected food items
+            const foodItems = document.getElementById('foodItems');
+            const selectedFood = Array.from(foodItems.selectedOptions).map(option => {
+                return {
+                    name: option.text.split(' - ')[0],
+                    price: parseInt(option.text.split(' - ')[1].replace('₹', ''))
+                };
+            });
+            
+            // Get selected drink items
+            const drinkItems = document.getElementById('drinkItems');
+            const selectedDrinks = Array.from(drinkItems.selectedOptions).map(option => {
+                return {
+                    name: option.text.split(' - ')[0],
+                    price: parseInt(option.text.split(' - ')[1].replace('₹', ''))
+                };
+            });
+            
+            // Calculate food and drink totals
+            const foodTotal = selectedFood.reduce((sum, item) => sum + item.price, 0);
+            const drinkTotal = selectedDrinks.reduce((sum, item) => sum + item.price, 0);
+            
+            // Calculate grand total
+            const total = roomTotal + foodTotal + drinkTotal;
+            
+            // Display summary
+            displaySummary(roomType.options[roomType.selectedIndex].text, roomTotal, 
+                         selectedFood, foodTotal, selectedDrinks, drinkTotal, total, nights);
+        }
+        
+        function getRoomPrice(roomType) {
+            switch(roomType) {
+                case 'deluxe': return 5999;
+                case 'executive': return 9999;
+                case 'presidential': return 19999;
+                default: return 0;
+            }
+        }
+        
+        function displaySummary(roomName, roomTotal, foodItems, foodTotal, drinkItems, drinkTotal, total, nights) {
+            const summaryContent = document.getElementById('summaryContent');
+            let html = `
+                <div class="summary-item">
+                    <span>${roomName} x ${nights} nights</span>
+                    <span>₹${roomTotal.toLocaleString('en-IN')}</span>
+                </div>
+            `;
+            
+            if (foodItems.length > 0) {
+                html += `<h4 style="margin-top: 15px;">Food Items</h4>`;
+                foodItems.forEach(item => {
+                    html += `
+                        <div class="summary-item">
+                            <span>${item.name}</span>
+                            <span>₹${item.price.toLocaleString('en-IN')}</span>
+                        </div>
+                    `;
+                });
+                html += `
+                    <div class="summary-item">
+                        <span>Food Subtotal</span>
+                        <span>₹${foodTotal.toLocaleString('en-IN')}</span>
+                    </div>
+                `;
+            }
+            
+            if (drinkItems.length > 0) {
+                html += `<h4 style="margin-top: 15px;">Beverages</h4>`;
+                drinkItems.forEach(item => {
+                    html += `
+                        <div class="summary-item">
+                            <span>${item.name}</span>
+                            <span>₹${item.price.toLocaleString('en-IN')}</span>
+                        </div>
+                    `;
+                });
+                html += `
+                    <div class="summary-item">
+                        <span>Beverage Subtotal</span>
+                        <span>₹${drinkTotal.toLocaleString('en-IN')}</span>
+                    </div>
+                `;
+            }
+            
+            summaryContent.innerHTML = html;
+            document.getElementById('totalAmount').textContent = `Total: ₹${total.toLocaleString('en-IN')}`;
+            document.getElementById('bookingSummary').style.display = 'block';
+            
+            // Scroll to summary
+            document.getElementById('bookingSummary').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function showPaymentDetails(method) {
+            // Hide all payment details first
+            document.querySelectorAll('.payment-details').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Show selected payment method
+            document.getElementById(`${method}Details`).classList.add('active');
+        }
+        
+        function processPayment() {
+            alert('Payment processed successfully! Thank you for your booking.');
+            // In a real application, you would send this data to your server
+        }
+        
+        // Set minimum date for check-in to today
+        document.getElementById('checkIn').min = new Date().toISOString().split('T')[0];
+        
+        // Update check-out min date when check-in changes
+        document.getElementById('checkIn').addEventListener('change', function() {
+            document.getElementById('checkOut').min = this.value;
+        });
+    </script>
+</body>
+</html>
